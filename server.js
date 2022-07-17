@@ -42,25 +42,10 @@ app.engine('handlebars', handlebars.engine({
     defaultLayout: 'main',
 }));
 
-
 app.get('/', handler.home);
+app.get('/|signup', handler.auth);
 app.get('/signUp', handler.signUp);
-
-app.post('/add', async (req, res) => {
-    const {name, email, password} = req.body;
-    const isExist = await User.findOne({email});
-    if(isExist){
-        console.log('☹️ ☹️ ☹️');
-        res.redirect('/signUp');
-        res.status(300);
-    }else{
-        User.create({name, email, password});
-        console.log('😊 😊 😊');
-        res.redirect('/');
-        res.status(300);
-    }
-});
-
+app.post('/api/signup', handler.api.processSignUp);
 app.post('/api/login', handler.api.processLogin);
 
 mongodb.once('open', () => app.listen(port, () => console.log(`Listenning on port ${port}`)));
