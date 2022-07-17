@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(session({
     saveUninitialized: false,
     resave: false,
-    secret: 'glblblhhcf',
+    secret: 'random key',
     /*store: new Redis({
         url: '127.0.0.1:6379',
         client: redis_db,
