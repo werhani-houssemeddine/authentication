@@ -43,9 +43,11 @@ app.engine('handlebars', handlebars.engine({
 }));
 
 app.get('/', handler.home);
-app.get('/|signup', handler.auth);
+app.get('/|signup|about', handler.auth);
 app.get('/signUp', handler.signUp);
 app.post('/api/signup', handler.api.processSignUp);
 app.post('/api/login', handler.api.processLogin);
+app.use(handler.notFound);
+app.use(handler.error);
 
 mongodb.once('open', () => app.listen(port, () => console.log(`Listenning on port ${port}`)));
