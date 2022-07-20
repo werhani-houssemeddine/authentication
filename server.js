@@ -11,7 +11,7 @@ require('dotenv').config();
 // Import local files
 const handler = require('./lib/handler');
 const redis_db = require('./lib/db_file');
-const User = require('./Model/users');
+const routes = require('./lib/routers');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -42,11 +42,9 @@ app.engine('handlebars', handlebars.engine({
     defaultLayout: 'main',
 }));
 
-app.get('/', handler.home);
-app.get('/|signup|about', handler.auth);
-app.get('/signUp', handler.signUp);
-app.post('/api/signup', handler.api.processSignUp);
-app.post('/api/login', handler.api.processLogin);
+app.use(handler.loging);
+
+routes.forEach(route => app[route.method](route.path, route.handler))
 app.use(handler.notFound);
 app.use(handler.error);
 
